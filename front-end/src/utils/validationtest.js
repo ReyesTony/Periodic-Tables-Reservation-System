@@ -32,6 +32,13 @@ function resValidator(formData, setError) {
   }
   if (/\d{4}-\d{2}-\d{2}/.test(formData.reservation_date) === false) {
     message += "reservation_date must be a date";
+  } else {
+    if (checkTuesday(formData.reservation_date)){
+      message += "We are closed tuesdays"
+    }
+    if (checkIfPast(formData.reservation_date)){
+      message += "Date must be in the future"
+    }
   }
   if (/[0-9]{2}:[0-9]{2}/.test(formData.reservation_time) === false) {
     message += "reservation_time must be a number";
@@ -70,6 +77,26 @@ function phoneValidate(phoneNumber, currentLength) {
     phoneNumber = phoneNumber.slice(0, 12);
   }
   return phoneNumber;
+}
+
+function checkTuesday(date) {
+  const checkedDate = date.split("-");
+  const newDate = new Date(
+    Number(checkedDate[0]),
+    Number(checkedDate[1]) - 1,
+    Number(checkedDate[2])
+  );
+  return newDate.getDay() === 2;
+}
+
+function checkIfPast(date) {
+  const checkedDate = date.split("-");
+  const newDate = new Date(
+    Number(checkedDate[0]),
+    Number(checkedDate[1]) - 1,
+    Number(checkedDate[2]) + 1
+  );
+  return newDate.getTime() < new Date().getTime();
 }
 
 module.exports = {
