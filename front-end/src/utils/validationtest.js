@@ -1,3 +1,11 @@
+function asDateString(date) {
+  return `${date.getFullYear().toString(10)}-${(date.getMonth() + 1)
+    .toString(10)
+    .padStart(2, "0")}-${date.getDate().toString(10).padStart(2, "0")}`;
+}
+function today() {
+  return asDateString(new Date());
+}
 function compareKeys(a, b) {
   const aKeys = Object.keys(a).sort();
   const bKeys = Object.keys(b).sort();
@@ -33,15 +41,23 @@ function resValidator(formData, setError) {
   if (/\d{4}-\d{2}-\d{2}/.test(formData.reservation_date) === false) {
     message += "reservation_date must be a date";
   } else {
-    if (checkTuesday(formData.reservation_date)){
-      message += "We are closed tuesdays"
+    if (checkTuesday(formData.reservation_date)) {
+      message += "We are closed tuesdays";
     }
-    if (checkIfPast(formData.reservation_date)){
-      message += "Date must be in the future"
+    if (checkIfPast(formData.reservation_date)) {
+      message += "Date must be in the future";
     }
   }
   if (/[0-9]{2}:[0-9]{2}/.test(formData.reservation_time) === false) {
     message += "reservation_time must be a number";
+  } else {
+    if (!checkIfOpen(formData.reservation_time)) {
+      message +=
+        "We are closed, open 1030 AM - 1030 PM reservations closing at 930 PM";
+    }
+    if (!enoughTimeCheck(formData.reservation_time)) {
+      message += "Reservation must be for the future";
+    }
   }
   if (message.length) {
     setError(new Error(message));
@@ -97,6 +113,43 @@ function checkIfPast(date) {
     Number(checkedDate[2]) + 1
   );
   return newDate.getTime() < new Date().getTime();
+}
+
+function enoughTimeCheck(time, date) {
+  if (date === today()) {
+    const currentDay = new Date();
+    const checkedTime = time.split(":");
+    const hour = Number(checkedTime[0]);
+    const min = Number(checkedTime[1]);
+    if (currentDay.getHours() >= hour) {
+      if (currentDay.getHours() == hour) {
+        if (currentDay.getMinutes() < min) {
+          return true;
+        }
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function checkIfOpen(time) {
+  const checkedTime = time.split(":");
+  const hour = Number(checkedTime[0]);
+  const min = Number(checkedTime[1]);
+  if (hour >= 10) {
+    if (hour === 10 && min < 30) {
+      return false;
+    }
+    if (hour >= 21) {
+      if (hour === 21 && min <= 30) {
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+  return false;
 }
 
 module.exports = {
