@@ -65,11 +65,11 @@ function Dashboard({ date }) {
       <div className="m2-3">
         <button
           onClick={() => {
-            dateChanger(1);
+            dateChanger(-1);
           }}
           className="btn btn-primary"
         >
-          Next day
+          Previous day
         </button>
         <button
           onClick={() => {
@@ -79,13 +79,14 @@ function Dashboard({ date }) {
         >
           Today
         </button>
+
         <button
           onClick={() => {
-            dateChanger(-1);
+            dateChanger(1);
           }}
           className="btn btn-primary"
         >
-          Previous day
+          Next day
         </button>
       </div>
     </main>

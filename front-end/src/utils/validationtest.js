@@ -122,7 +122,7 @@ function enoughTimeCheck(time, date) {
     const hour = Number(checkedTime[0]);
     const min = Number(checkedTime[1]);
     if (currentDay.getHours() >= hour) {
-      if (currentDay.getHours() == hour) {
+      if (currentDay.getHours() === hour) {
         if (currentDay.getMinutes() < min) {
           return true;
         }
@@ -152,7 +152,40 @@ function checkIfOpen(time) {
   return false;
 }
 
+function tableValidate(formData, setError) {
+  setError(null);
+  const template = {
+    table_name: null,
+    capacity: 0,
+  };
+
+  let message = "";
+
+  if (!compareKeys(formData, template) || !notNull(formData)) {
+    message = "Invalid input given, requires a table_name and capacity";
+    setError(new Error(message));
+    return false;
+  }
+  if (formData.table_name.length < 2) {
+    message = "table_name needs at least 2 characters";
+    setError(new Error(message));
+    return false;
+  }
+  if (formData.capacity <= 0) {
+    message = "Table capacity needs to be a min of 1";
+    setError(new Error(message));
+    return false;
+  }
+  if (message.length) {
+    setError(new Error(message));
+    return false;
+  } else {
+    return true;
+  }
+}
+
 module.exports = {
   resValidator,
   phoneValidate,
+  tableValidate,
 };
