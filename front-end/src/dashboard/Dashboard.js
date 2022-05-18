@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import useQuery from "../utils/useQuery";
 import { useHistory } from "react-router";
 import Reservation from "../Reservation";
+import Table from "../Tables";
 
 /**
  * Defines the dashboard page.
@@ -14,6 +15,8 @@ import Reservation from "../Reservation";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const [tables, setTables] = useState([]);
+  const [tableError, setTableError] = useState(null);
   const query = useQuery();
   const queryDate = query.get("date");
   const history = useHistory();
@@ -29,10 +32,12 @@ function Dashboard({ date }) {
       history.push(`/dashboard?date=${date}`);
     }
     const abortController = new AbortController();
+    const abortCon = new AbortController();
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    listTables(abortCon.signal).then(setTables).catch(setTableError);
     return () => abortController.abort();
   }
 
@@ -89,6 +94,10 @@ function Dashboard({ date }) {
           Next day
         </button>
       </div>
+      <br />
+      {tables.map((table) => (
+        <Table table={table} />
+      ))}
     </main>
   );
 }

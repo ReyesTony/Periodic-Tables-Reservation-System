@@ -1,4 +1,3 @@
-
 export default function Reservation({ reservation, setReservations, date }) {
   return (
     <div className="card">
@@ -9,6 +8,7 @@ export default function Reservation({ reservation, setReservations, date }) {
         <p className="card-text">Phone Number: {reservation.mobile_number}</p>
         <p className="card-text">Time: {reservation.reservation_time}</p>
         <p className="card-text">Party Size: {reservation.people}</p>
+        <a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a>
       </div>
     </div>
   );
