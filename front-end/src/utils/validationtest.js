@@ -158,10 +158,20 @@ function tableValidate(formData, setError) {
     table_name: null,
     capacity: 0,
   };
-
+  const template2 = {
+    table_name: null,
+    capacity: 0,
+    reservation_id: null,
+  };
+  let reserveIdTemp = { ...formData, reservation_id: 1 };
   let message = "";
 
-  if (!compareKeys(formData, template) || !notNull(formData)) {
+  if (!compareKeys(formData, template) && !compareKeys(formData, template2)) {
+    message = "Invalid input given, requires a table_name and capacity";
+    setError(new Error(message));
+    return false;
+  }
+  if (!notNull(reserveIdTemp)) {
     message = "Invalid input given, requires a table_name and capacity";
     setError(new Error(message));
     return false;
@@ -195,12 +205,12 @@ function updateValidator(formData, reservation, setError) {
     );
     return false;
   }
-  return true
+  return true;
 }
 
 module.exports = {
   resValidator,
   phoneValidate,
   tableValidate,
-  updateValidator
+  updateValidator,
 };

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router";
 import { assignReservation, getReservation, listTables } from "./utils/api";
 import { updateValidator } from "./utils/validationtest";
-import ErrorAlert from "./layout/ErrorAlert"
+import ErrorAlert from "./layout/ErrorAlert";
 
 export default function SeatingPage() {
   const history = useHistory();
@@ -32,7 +32,7 @@ export default function SeatingPage() {
       listTables()
         .then(setTables)
         .then(getReservation(reservation_id).then(setReservation)),
-    []
+    [reservation_id]
   );
 
   //handlesubmit todo

@@ -96,7 +96,7 @@ function Dashboard({ date }) {
       </div>
       <br />
       {tables.map((table) => (
-        <Table table={table} />
+        <Table table={table} setTables={setTables} />
       ))}
     </main>
   );

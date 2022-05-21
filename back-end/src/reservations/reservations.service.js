@@ -24,8 +24,17 @@ function read(id) {
     .returning("*")
     .then((created) => created[0]);
 }
+
+function update(id, status) {
+  return knex(table)
+    .where({ reservation_id: id })
+    .update("status", status)
+    .returning("*")
+    .then((created) => created[0]);
+}
 module.exports = {
   list,
   create,
   read,
+  update
 };

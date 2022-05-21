@@ -25,6 +25,7 @@ function read(table_id) {
     .then((created) => created[0]);
 }
 
+
 module.exports = {
   list,
   create,

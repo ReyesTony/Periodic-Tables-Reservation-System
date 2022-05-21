@@ -66,11 +66,11 @@ async function updateValidation(req, res, next) {
       message: "999",
     });
   }
-  if (reservation.status === "seated"){
+  if (reservation.status === "seated") {
     return next({
-      status : 400,
-      message : "reservation was seated"
-    })
+      status: 400,
+      message: "reservation was seated",
+    });
   }
   if (table.capacity < reservation.people) {
     return next({
@@ -87,8 +87,34 @@ async function updateValidation(req, res, next) {
   next();
 }
 
+async function finishValidator(req, res, next) {
+  const table = await service.read(Number(req.params.table_id));
+  if (!table) {
+    return next({
+      status: 404,
+      message: `Table ${req.params.table_id} doesn't exist`,
+    });
+  }
+  if (!table.reservation_id) {
+    return next({
+      status: 400,
+      message: "Table is not occupied",
+    });
+  }
+  next();
+}
+
+async function finished(req, res, next) {
+  const tableId = Number(req.params.table_id);
+  const table = await service.read(tableId);
+  const updated = await service.update(tableId, null);
+  await resService.update(table.reservation_id, "finished");
+  res.status(200).json({ data: updated });
+}
+
 module.exports = {
   create: [asyncErrorBoundary(validate), asyncErrorBoundary(create)],
   list: asyncErrorBoundary(list),
   update: [asyncErrorBoundary(updateValidation), asyncErrorBoundary(update)],
+  delete: [asyncErrorBoundary(finishValidator), asyncErrorBoundary(finished)],
 };

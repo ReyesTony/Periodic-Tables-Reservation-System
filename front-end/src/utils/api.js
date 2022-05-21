@@ -126,3 +126,8 @@ export async function getReservation(reservation_id, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
+
+export async function finishTable(table_id, signal) {
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  return await fetchJson(url, { headers, method: "DELETE", signal }, []);
+}
