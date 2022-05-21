@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router";
-import { listTables } from "./utils/api";
+import { assignReservation, getReservation, listTables } from "./utils/api";
+import { updateValidator } from "./utils/validationtest";
+import ErrorAlert from "./layout/ErrorAlert"
 
 export default function SeatingPage() {
   const history = useHistory();
+  const [error, setError] = useState(null);
   const [tables, setTables] = useState([]);
+  const [reservation, setReservation] = useState({});
   const { params } = useRouteMatch();
   const { reservation_id } = params;
-  useEffect(() => listTables().then(setTables), []);
+
   const [formData, setFormData] = useState({
     table_name: "",
     capactiy: null,
@@ -22,18 +26,32 @@ export default function SeatingPage() {
       table_id: changeArray[2],
     });
   };
+
+  useEffect(
+    () =>
+      listTables()
+        .then(setTables)
+        .then(getReservation(reservation_id).then(setReservation)),
+    []
+  );
+
   //handlesubmit todo
   //add requried validation
   //add assignReservation api function
   //backend, update table and reservation
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
-    window.alert(formData.table_id);
+    const abortCon = new AbortController();
+    if (updateValidator(formData, reservation, setError)) {
+      assignReservation(formData.table_id, reservation_id, abortCon.signal)
+        .then(() => history.push("/dashboard"))
+        .catch((err) => setError(err));
+    }
   };
 
   return (
     <div>
+      {error ? <ErrorAlert error={error} /> : null}
       <h1>Assign Seating</h1>
       <form name="seat_form" onSubmit={handleSubmit}>
         <div className="form-group">

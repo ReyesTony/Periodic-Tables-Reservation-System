@@ -18,7 +18,14 @@ async function create(data) {
     .then((created) => created[0]);
 }
 
+function read(id) {
+  return knex(table)
+    .where({ "reservations.reservation_id": id })
+    .returning("*")
+    .then((created) => created[0]);
+}
 module.exports = {
   list,
   create,
+  read,
 };

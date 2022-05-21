@@ -183,9 +183,24 @@ function tableValidate(formData, setError) {
     return true;
   }
 }
+function updateValidator(formData, reservation, setError) {
+  setError(null);
+  if (!notNull(formData)) {
+    setError(new Error("Choose a table"));
+    return false;
+  }
+  if (reservation.people > formData.capacity) {
+    setError(
+      new Error("Table capacity must be equal or greater to party size")
+    );
+    return false;
+  }
+  return true
+}
 
 module.exports = {
   resValidator,
   phoneValidate,
   tableValidate,
+  updateValidator
 };
