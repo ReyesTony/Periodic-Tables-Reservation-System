@@ -27,6 +27,15 @@ function Dashboard({ date }) {
 
   useEffect(loadDashboard, [date, history, queryDate]);
 
+  //seperating the tables dependency to update reservations from loadDashboard function to avoid infinite loop, while
+  //maintaining functionallty of loading dashboard again when date changes, to load both tables and reservations
+  useEffect(() => {
+    const abortController = new AbortController();
+    listReservations({ date }, abortController.signal)
+      .then(setReservations)
+      .catch(setReservationsError);
+  }, [tables]);
+
   function loadDashboard() {
     if (queryDate !== date) {
       history.push(`/dashboard?date=${date}`);
@@ -35,7 +44,7 @@ function Dashboard({ date }) {
     const abortCon = new AbortController();
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
-      .then(setReservations)      
+      .then(setReservations)
       .catch(setReservationsError);
     listTables(abortCon.signal).then(setTables).catch(setTableError);
     return () => abortController.abort();
