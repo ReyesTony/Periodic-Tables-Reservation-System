@@ -17,6 +17,7 @@ export default function SeatingPage() {
     capactiy: null,
     table_id: null,
   });
+  
   const handleChange = (event) => {
     const change = event.target.value;
     const changeArray = change.split(",");

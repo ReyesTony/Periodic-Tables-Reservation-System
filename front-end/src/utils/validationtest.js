@@ -30,9 +30,25 @@ function resValidator(formData, setError) {
     people: 0,
   };
 
+  const template2 = {
+    first_name: null,
+    last_name: null,
+    mobile_number: null,
+    reservation_date: null,
+    reservation_time: null,
+    people: 0,
+    status: null,
+  };
+
   let message = "";
 
-  if (!compareKeys(formData, template) || !notNull(formData)) {
+  if (!compareKeys(formData, template) && !compareKeys(formData, template2)) {
+    message =
+      "Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people}";
+    setError(new Error(message));
+    return false;
+  }
+  if (!notNull(formData)) {
     message =
       "Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people}";
     setError(new Error(message));

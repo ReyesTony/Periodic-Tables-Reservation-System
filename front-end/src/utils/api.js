@@ -131,3 +131,18 @@ export async function finishTable(table_id, signal) {
   const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
   return await fetchJson(url, { headers, method: "DELETE", signal }, []);
 }
+
+export async function seatReservation(reservation_id, newStatus, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
+  return await fetchJson(
+    url,
+    {
+      body: JSON.stringify({ data: { status: newStatus } }),
+      headers,
+      method: "PUT",
+      signal,
+    },
+    []
+  );
+}
+

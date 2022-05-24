@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const router = require("express").Router({ mergeParams: true });
 const methodNotAllowed = require("../errors/methodNotAllowed");
 const controller = require("./tables.controller");
 
@@ -13,5 +13,5 @@ router
   .put(controller.update)
   .delete(controller.delete)
   .all(methodNotAllowed);
-  
+
 module.exports = router;

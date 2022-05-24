@@ -48,6 +48,7 @@ async function update(req, res, next) {
   const table_id = Number(req.params.table_id);
   const reservation_id = Number(req.body.data.reservation_id);
   const updatedTable = await service.update(table_id, reservation_id);
+  await resService.update(reservation_id, "seated")
   res.status(200).json({ data: updatedTable });
 }
 

@@ -8,7 +8,16 @@ export default function Reservation({ reservation, setReservations, date }) {
         <p className="card-text">Phone Number: {reservation.mobile_number}</p>
         <p className="card-text">Time: {reservation.reservation_time}</p>
         <p className="card-text">Party Size: {reservation.people}</p>
-        <a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a>
+        <p
+          className="card-text"
+          data-reservation-id-status={reservation.reservation_id}
+        >          
+          {reservation.status.replace(/(\w)(\w*)/g,
+        function(g0,g1,g2){return g1.toUpperCase() + g2.toLowerCase();})}
+        </p>
+        {reservation.status === "booked" ? (
+          <a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a>
+        ) : null}
       </div>
     </div>
   );

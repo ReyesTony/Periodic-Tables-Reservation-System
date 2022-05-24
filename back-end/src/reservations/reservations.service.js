@@ -6,6 +6,7 @@ async function list(date) {
     return knex(table)
       .select("*")
       .where({ "reservations.reservation_date": date })
+      .whereNot({ status: "finished" })
       .orderBy("reservation_time", "asc");
   } else {
     return knex(table).select("*");
@@ -36,5 +37,5 @@ module.exports = {
   list,
   create,
   read,
-  update
+  update,
 };

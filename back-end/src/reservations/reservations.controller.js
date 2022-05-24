@@ -25,7 +25,12 @@ async function validate(req, res, next) {
         "Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people}",
     });
   }
-
+  if (newRes.status && newRes.status != "booked") {
+    return next({
+      status: 400,
+      message: "Invalid status, cannot be seated or finished",
+    });
+  }
   if (!resValidator(newRes, setError) || typeof newRes.people != "number") {
     if (!message) {
       message = "people must be a number";
@@ -43,12 +48,45 @@ async function create(req, res, next) {
 
 async function read(req, res, next) {
   const reservation = await service.read(req.params.reservationId);
-  console.log(req.params)
-  res.json({ data : reservation });
+  res.json({ data: reservation });
+}
+
+async function update(req, res, next) {
+  const reservationId = Number(req.params.reservationId);
+  const newStatus = req.body.data.status;
+  const updatedRes = await service.update(reservationId, newStatus);
+  res.status(200).json({ data: updatedRes });
+}
+
+async function updateValidation(req, res, next) {
+  const reservation = await service.read(req.params.reservationId);
+  const newStatus = req.body.data.status;
+
+  const acceptedStatus = ["finished", "booked", "seated"];
+  if (!reservation) {
+    return next({
+      status: 404,
+      message: "99",
+    });
+  }
+  if (reservation.status === "finished") {
+    return next({
+      status: 400,
+      message: "Reservation is finished",
+    });
+  }
+  if (!acceptedStatus.includes(newStatus)) {
+    return next({
+      status: 400,
+      message: "Given status is unknown",
+    });
+  }
+  return next();
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [asyncErrorBoundary(validate), asyncErrorBoundary(create)],
-  read
+  read,
+  update: [asyncErrorBoundary(updateValidation), asyncErrorBoundary(update)],
 };

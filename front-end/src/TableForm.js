@@ -24,8 +24,8 @@ function TableForm() {
     const abortCon = new AbortController();
     console.log(formData);
     setFormData({ ...initialFormState });
-    if (tableValidate(formData, abortCon.signal)) {
-      createTable(formData.abortCon.signal)
+    if (tableValidate(formData, setError)) {
+      createTable(formData, abortCon.signal)
         .then(() => history.push("/dashboard"))
         .catch((err) => {
           setError(err);
