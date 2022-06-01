@@ -4,12 +4,26 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const service = require("./reservations.service");
 const { resValidator } = require("../../../front-end/src/utils/validationtest");
+const { response } = require("express");
 
-async function list(req, res) {
-  const response = await service.list(req.query.date);
-  return res.json({
-    data: [...response],
-  });
+async function list(req, res, next) {
+  if (req.query.date) {
+    const response = await service.list(req.query.date);
+    return res.json({
+      data: [...response],
+    });
+  } else if (req.query.mobile_number) {
+    const response = await service.search(req.query.mobile_number);
+    if (!response.length) {
+      return next({
+        status: 400,
+        message: "No reservations found",
+      });
+    }
+    return res.json({
+      data: [...response],
+    });
+  }
 }
 
 async function validate(req, res, next) {

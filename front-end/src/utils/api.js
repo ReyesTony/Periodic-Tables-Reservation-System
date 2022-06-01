@@ -127,6 +127,14 @@ export async function getReservation(reservation_id, signal) {
     .then(formatReservationTime);
 }
 
+export async function searchReservation(mobile_number, signal) {
+  const url = new URL(
+    `${API_BASE_URL}/reservations/?mobile_number=${mobile_number}`
+  );
+
+  return await fetchJson(url, { headers, signal }, []);
+}
+
 export async function finishTable(table_id, signal) {
   const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
   return await fetchJson(url, { headers, method: "DELETE", signal }, []);
@@ -145,4 +153,3 @@ export async function seatReservation(reservation_id, newStatus, signal) {
     []
   );
 }
-
