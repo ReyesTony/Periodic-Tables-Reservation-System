@@ -110,22 +110,27 @@ function ReservationForm() {
         <h2>New Reservation Form</h2>
       )}{" "}
       <form name="reservation" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="first_name">
-            First name
+        <div class="form-floating mb-3">
+          <label for="first_name">
+            First Name
             <input
+              class="form-control"
               id="first_name"
               type="text"
               name="first_name"
               onChange={handleChange}
               value={formData.first_name}
+              placeholder="First Name"
               required
             />
           </label>
-          <br />
-          <label htmlFor="last_name">
-            Last name
+        </div>
+        <div class="form-floating mb-3">
+          <label for="last_name">
+            Last Name
             <input
+              class="form-control"
+              placeholder="Last Name"
               id="last_name"
               type="text"
               name="last_name"
@@ -134,24 +139,30 @@ function ReservationForm() {
               required
             />
           </label>
-          <br />
-          <label htmlFor="mobile_number">
+        </div>
+        <div class="form-floating mb-3">
+          <label for="mobile_number">
             Mobile Number
             <input
+              class="form-control"
               id="mobile_number"
               type="text"
               name="mobile_number"
+              placeholder="xxx-xxx-xxxx"
               onChange={handleChange}
               value={formData.mobile_number}
               pattern="([0-9]{3}-)?[0-9]{3}-[0-9]{4}"
               required
             />
           </label>
-          <br />
+        </div>
 
-          <label htmlFor="reservation_date">
+        <div class="form-floating mb-3">
+          <label for="date">
             Date
             <input
+              class="form-control"
+              placeholder="Date"
               id="reservation_date"
               type="date"
               name="reservation_date"
@@ -161,11 +172,15 @@ function ReservationForm() {
               required
             />
           </label>
-          <br />
+        </div>
 
-          <label htmlFor="reservation_time">
-            Time of Reserve
+        <div class="form-floating mb-3">
+          <label for="Time">
+            {" "}
+            Time
             <input
+              class="form-control"
+              placeholder="Time"
               id="reservation_time"
               type="time"
               name="reservation_time"
@@ -175,11 +190,12 @@ function ReservationForm() {
               required
             />
           </label>
-          <br />
-
-          <label htmlFor="people">
-            Party Size
+        </div>
+        <form class="form-floating mb-3">
+          <label for="people">
+            People
             <input
+              class="form-control"
               id="people"
               type="number"
               name="people"
@@ -189,12 +205,11 @@ function ReservationForm() {
               required
             />
           </label>
-          <br />
-          <button type="submit"> Submit </button>
-          <button type="button" onClick={() => history.goBack()}>
-            cancel
-          </button>
-        </div>
+        </form>
+        <button type="submit"> Submit </button>
+        <button type="button" onClick={() => history.goBack()}>
+          cancel
+        </button>
       </form>
     </div>
   );
