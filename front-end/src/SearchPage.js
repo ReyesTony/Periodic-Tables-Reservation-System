@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-const { phoneValidate } = require("./utils/validationtest");
 import { searchReservation } from "./utils/api";
 import Reservation from "./Reservation";
 import ErrorAlert from "./layout/ErrorAlert";
+
+const { phoneValidate } = require("./utils/validationtest");
+
 
 function SearchPage() {
   const [search, setSearch] = useState("");

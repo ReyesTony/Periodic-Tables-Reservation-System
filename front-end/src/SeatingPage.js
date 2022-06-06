@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router";
 import { assignReservation, getReservation, listTables } from "./utils/api";
-const { updateValidator } = require("./utils/validationtest");
 import ErrorAlert from "./layout/ErrorAlert";
+
+const { updateValidator } = require("./utils/validationtest");
 
 export default function SeatingPage() {
   const history = useHistory();
