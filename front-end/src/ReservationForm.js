@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router";
-import { createReservations } from "./utils/api";
+import React, { useState, useEffect } from "react";
+import { useHistory, useRouteMatch } from "react-router";
+import {
+  createReservations,
+  getReservation,
+  updateReservation,
+} from "./utils/api";
 import ErrorAlert from "./layout/ErrorAlert";
 import { phoneValidate, resValidator } from "./utils/validationtest";
 
 function ReservationForm() {
   const history = useHistory();
+  const { params, url } = useRouteMatch();
   const [error, setError] = useState(null);
+  const [type, setType] = useState("new");
+  const [existingData, setExistingData] = useState({});
   const initialFormState = {
     first_name: "",
     last_name: "",
@@ -33,22 +40,75 @@ function ReservationForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const abortCon = new AbortController();
-    setFormData({ ...initialFormState });
-    if (resValidator(formData, setError)) {
-      createReservations(formData, abortCon.signal)
-        .then(() =>
-          history.push(`/dashboard?date=${formData.reservation_date}`)
-        )
-        .catch((err) => {
-          setError(err);
-        });
+    if (type === "new") {
+      setFormData({ ...initialFormState });
+      if (resValidator(formData, setError)) {
+        createReservations(formData, abortCon.signal)
+          .then(() =>
+            history.push(`/dashboard?date=${formData.reservation_date}`)
+          )
+          .catch((err) => {
+            setError(err);
+          });
+      }
+    } else {
+      if (existingData.status === "booked") {
+        if (resValidator(formData, setError)) {
+          updateReservation(formData, abortCon.signal, params.reservation_id)
+            .then(() =>
+              history.push(`/dashboard?date=${formData.reservation_date}`)
+            )
+            .catch((err) => {
+              setError(err);
+            });
+        }
+      }
     }
   };
+
+  useEffect(() => {
+    Object.keys(params).length ? setType("edit") : setType("new");
+  }, [history, params, url]);
+
+  useEffect(() => {
+    if (type === "edit") {
+      const abortController = new AbortController();
+      getReservation(params.reservation_id, abortController.signal)
+        .then(setExistingData)
+        .catch(setError);
+    } else {
+      setExistingData({
+        first_name: "",
+        last_name: "",
+        mobile_number: "",
+        reservation_date: "",
+        reservation_time: "",
+        people: 1,
+      });
+    }
+  }, [type, params.reservation_id]);
+
+  useEffect(() => {
+    if (Object.keys(existingData).length) {
+      setFormData({
+        first_name: existingData.first_name,
+        last_name: existingData.last_name,
+        mobile_number: existingData.mobile_number,
+        reservation_date: existingData.reservation_date,
+        reservation_time: existingData.reservation_time,
+        people: existingData.people,
+      });
+    }
+  }, [existingData]);
 
   return (
     <div>
       {error ? <ErrorAlert error={error} /> : null}
-      New reservation Form
+      {type === "edit" ? (
+        <h2>Edit Reservation Form </h2>
+      ) : (
+        <h2>New Reservation Form</h2>
+      )}{" "}
       <form name="reservation" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="first_name">
@@ -75,7 +135,7 @@ function ReservationForm() {
             />
           </label>
           <br />
-          <lable htmlFor="mobile_number">
+          <label htmlFor="mobile_number">
             Mobile Number
             <input
               id="mobile_number"
@@ -86,9 +146,10 @@ function ReservationForm() {
               pattern="([0-9]{3}-)?[0-9]{3}-[0-9]{4}"
               required
             />
-            <br />
-          </lable>
-          <lable htmlFor="reservation_date">
+          </label>
+          <br />
+
+          <label htmlFor="reservation_date">
             Date
             <input
               id="reservation_date"
@@ -99,9 +160,10 @@ function ReservationForm() {
               pattern="\d{4}-\d{2}-\d{2}"
               required
             />
-            <br />
-          </lable>
-          <lable htmlFor="reservation_time">
+          </label>
+          <br />
+
+          <label htmlFor="reservation_time">
             Time of Reserve
             <input
               id="reservation_time"
@@ -112,8 +174,9 @@ function ReservationForm() {
               pattern="[0-9]{2}:[0-9]{2}"
               required
             />
-            <br />
-          </lable>
+          </label>
+          <br />
+
           <label htmlFor="people">
             Party Size
             <input
@@ -129,7 +192,7 @@ function ReservationForm() {
           <br />
           <button type="submit"> Submit </button>
           <button type="button" onClick={() => history.goBack()}>
-            Cancel
+            cancel
           </button>
         </div>
       </form>

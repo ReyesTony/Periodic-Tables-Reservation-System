@@ -52,7 +52,7 @@ function TableForm() {
             />
           </label>
           <br />
-          <lable htmlFor="capacity">
+          <label htmlFor="capacity">
             Table capacity
             <input
               id="capacity"
@@ -63,7 +63,7 @@ function TableForm() {
               min="1"
               required
             />
-          </lable>
+          </label>
           <br />
           <button type="submit">Submit</button>
           <button type="button" onClick={() => history.goBack()}>

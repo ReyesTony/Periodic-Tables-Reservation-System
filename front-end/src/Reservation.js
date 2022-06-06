@@ -1,3 +1,6 @@
+import React from "react";
+import CancelButton from "./CancelButton";
+
 export default function Reservation({ reservation, setReservations, date }) {
   return (
     <div className="card">
@@ -11,13 +14,26 @@ export default function Reservation({ reservation, setReservations, date }) {
         <p
           className="card-text"
           data-reservation-id-status={reservation.reservation_id}
-        >          
-          {reservation.status.replace(/(\w)(\w*)/g,
-        function(g0,g1,g2){return g1.toUpperCase() + g2.toLowerCase();})}
+        >
+          {reservation.status.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
+            return g1.toUpperCase() + g2.toLowerCase();
+          })}
         </p>
         {reservation.status === "booked" ? (
           <a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a>
         ) : null}
+        <a
+          href={`/reservations/${reservation.reservation_id}/edit`}
+          className="btn btn-secondary mr-1"
+        >
+          {" "}
+          Edit
+        </a>
+        <CancelButton
+          reservation={reservation}
+          setReservations={setReservations}
+          date={date}
+        />
       </div>
     </div>
   );

@@ -4,7 +4,6 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const service = require("./reservations.service");
 const { resValidator } = require("../../../front-end/src/utils/validationtest");
-const { response } = require("express");
 
 async function list(req, res, next) {
   if (req.query.date) {
@@ -14,12 +13,12 @@ async function list(req, res, next) {
     });
   } else if (req.query.mobile_number) {
     const response = await service.search(req.query.mobile_number);
-    if (!response.length) {
-      return next({
-        status: 400,
-        message: "No reservations found",
-      });
-    }
+    // if (!response.length) {
+    //   return next({
+    //     status: 400,
+    //     message: "No reservations found",
+    //   });
+    // }
     return res.json({
       data: [...response],
     });
@@ -62,6 +61,12 @@ async function create(req, res, next) {
 
 async function read(req, res, next) {
   const reservation = await service.read(req.params.reservationId);
+  if(!reservation){
+    return next({
+      status : 404,
+      message : "99"
+    })
+  }
   res.json({ data: reservation });
 }
 
@@ -76,7 +81,7 @@ async function updateValidation(req, res, next) {
   const reservation = await service.read(req.params.reservationId);
   const newStatus = req.body.data.status;
 
-  const acceptedStatus = ["finished", "booked", "seated"];
+  const acceptedStatus = ["finished", "booked", "seated", "cancelled"];
   if (!reservation) {
     return next({
       status: 404,
@@ -98,9 +103,49 @@ async function updateValidation(req, res, next) {
   return next();
 }
 
+async function updateReservation(req, res) {
+  const reservationId = Number(req.params.reservationId);
+  const reservation = req.body.data;
+
+  const updated = await service.updateReservation(reservationId, reservation);
+  res.status(200).json({ data: updated });
+}
+
+async function updateResValidation(req, res, next) {
+  const test2 = {
+    first_name: null,
+    last_name: null,
+    mobile_number: null,
+    reservation_date: null,
+    reservation_time: null,
+    people: 0,
+    status: "",
+  };
+  let temp = {};
+  for (let key in req.body.data) {
+    if (Object.keys(test2).includes(key)) {
+      temp[key] = req.body.data[key];
+    }
+  }
+  req.body.data = temp;
+  const reservation = await service.read(req.params.reservationId);
+
+  if (!reservation)
+    return next({
+      status: 404,
+      message: `${req.params.reservationId} does not exist`,
+    });
+  next();
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [asyncErrorBoundary(validate), asyncErrorBoundary(create)],
-  read,
+  read: asyncErrorBoundary(read),
   update: [asyncErrorBoundary(updateValidation), asyncErrorBoundary(update)],
+  updateReservation: [
+    asyncErrorBoundary(updateResValidation),
+    asyncErrorBoundary(validate),
+    asyncErrorBoundary(updateReservation),
+  ],
 };

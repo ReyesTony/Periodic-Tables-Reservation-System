@@ -16,7 +16,6 @@ function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [tables, setTables] = useState([]);
-  const [tableError, setTableError] = useState(null);
   const query = useQuery();
   const queryDate = query.get("date");
   const history = useHistory();
@@ -34,7 +33,7 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
-  }, [tables]);
+  }, [tables, date]);
 
   function loadDashboard() {
     if (queryDate !== date) {
@@ -46,7 +45,7 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
-    listTables(abortCon.signal).then(setTables).catch(setTableError);
+    listTables(abortCon.signal).then(setTables);
     return () => abortController.abort();
   }
 
@@ -71,6 +70,7 @@ function Dashboard({ date }) {
       <ErrorAlert error={reservationsError} />
       {reservations.map((reservation) => (
         <Reservation
+          key={reservation.reservation_id}
           reservation={reservation}
           setReservations={setReservations}
           date={date}
@@ -105,7 +105,7 @@ function Dashboard({ date }) {
       </div>
       <br />
       {tables.map((table) => (
-        <Table table={table} setTables={setTables} />
+        <Table key={table.table_id} table={table} setTables={setTables} />
       ))}
     </main>
   );

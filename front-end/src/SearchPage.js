@@ -8,6 +8,7 @@ function SearchPage() {
   const [search, setSearch] = useState("");
   const [found, setFound] = useState([]);
   const [error, setError] = useState(null);
+  const [submit, setSubmit] = useState(false);
 
   const handleChange = (event) => {
     let phoneNumber = phoneValidate(event.target.value, search);
@@ -17,7 +18,10 @@ function SearchPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const abortCon = new AbortController();
-    searchReservation(search, abortCon.signal).then(setFound).catch(setError);
+    searchReservation(search, abortCon.signal)
+      .then(setFound)
+      .then(setSubmit(true))
+      .catch(setError);
     setSearch("");
   };
 
@@ -40,9 +44,22 @@ function SearchPage() {
           <button type="submit">Search</button>
         </div>
       </form>
-      {found.map((reservation) => (
-        <Reservation reservation={reservation} setReservations={setFound} />
-      ))}
+      {submit ? (
+        found.length ? (
+          <div>
+            {found.map((reservation) =>
+              reservation.status === "finished" ? null : (
+                <Reservation
+                  key={reservation.reservation_id}
+                  reservation={reservation}
+                />
+              )
+            )}
+          </div>
+        ) : (
+          <div> No reservations found </div>
+        )
+      ) : null}
     </div>
   );
 }
