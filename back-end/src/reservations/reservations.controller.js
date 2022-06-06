@@ -15,6 +15,11 @@ async function list(req, res, next) {
     return res.json({
       data: [...response],
     });
+  } else {
+    const response = await service.list();
+    return res.json({
+      data: [...response],
+    });
   }
 }
 
