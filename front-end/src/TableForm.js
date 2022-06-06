@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import ErrorAlert from "./layout/ErrorAlert";
 import { createTable } from "./utils/api";
-import { tableValidate } from "./utils/validationtest";
+const { tableValidate } = require("./utils/validationtest");
 
 function TableForm() {
   const history = useHistory();

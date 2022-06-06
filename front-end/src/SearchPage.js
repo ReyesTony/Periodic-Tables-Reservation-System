@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { phoneValidate } from "./utils/validationtest";
+const { phoneValidate } = require("./utils/validationtest");
 import { searchReservation } from "./utils/api";
 import Reservation from "./Reservation";
 import ErrorAlert from "./layout/ErrorAlert";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useHistory, useRouteMatch } from "react-router";
 import { assignReservation, getReservation, listTables } from "./utils/api";
-import { updateValidator } from "./utils/validationtest";
+const { updateValidator } = require("./utils/validationtest");
 import ErrorAlert from "./layout/ErrorAlert";
 
 export default function SeatingPage() {
@@ -17,7 +17,7 @@ export default function SeatingPage() {
     capactiy: null,
     table_id: null,
   });
-  
+
   const handleChange = (event) => {
     const change = event.target.value;
     const changeArray = change.split(",");
