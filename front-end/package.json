@@ -1,7 +1,6 @@
 {
   "name": "starter-restaurant-reservation-front-end",
   "version": "1.0.0",
-  "homepage": "final-cap-front.vercel.app",
   "description": "Starter code for restaurant reservation frontend",
   "main": "src/index.js",
   "repository": {

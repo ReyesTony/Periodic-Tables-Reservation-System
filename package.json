@@ -1,7 +1,6 @@
 {
   "name": "starter-restaurant-reservation",
   "version": "1.0.0",
-  "homepage": "final-cap-front.vercel.app",
   "description": "Starter project restaurant reservation system",
   "private": true,
   "repository": {
