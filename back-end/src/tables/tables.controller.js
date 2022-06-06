@@ -1,8 +1,6 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const service = require("./tables.services");
-const {
-  tableValidate,
-} = require("../../../front-end/src/utils/validationtest");
+
 const resService = require("../reservations/reservations.service");
 const knex = require("../db/connection");
 
@@ -48,7 +46,7 @@ async function update(req, res, next) {
   const table_id = Number(req.params.table_id);
   const reservation_id = Number(req.body.data.reservation_id);
   const updatedTable = await service.update(table_id, reservation_id);
-  await resService.update(reservation_id, "seated")
+  await resService.update(reservation_id, "seated");
   res.status(200).json({ data: updatedTable });
 }
 
@@ -113,6 +111,59 @@ async function finished(req, res, next) {
   res.status(200).json({ data: updated });
 }
 
+function tableValidate(formData, setError) {
+  setError(null);
+  const template = {
+    table_name: null,
+    capacity: 0,
+  };
+  const template2 = {
+    table_name: null,
+    capacity: 0,
+    reservation_id: null,
+  };
+  let reserveIdTemp = { ...formData, reservation_id: 1 };
+  let message = "";
+
+  if (!compareKeys(formData, template) && !compareKeys(formData, template2)) {
+    message = "Invalid input given, requires a table_name and capacity";
+    setError(new Error(message));
+    return false;
+  }
+  if (!notNull(reserveIdTemp)) {
+    message = "Invalid input given, requires a table_name and capacity";
+    setError(new Error(message));
+    return false;
+  }
+  if (formData.table_name.length < 2) {
+    message = "table_name needs at least 2 characters";
+    setError(new Error(message));
+    return false;
+  }
+  if (formData.capacity <= 0) {
+    message = "Table capacity needs to be a min of 1";
+    setError(new Error(message));
+    return false;
+  }
+  if (message.length) {
+    setError(new Error(message));
+    return false;
+  } else {
+    return true;
+  }
+}
+function compareKeys(a, b) {
+  const aKeys = Object.keys(a).sort();
+  const bKeys = Object.keys(b).sort();
+  return JSON.stringify(aKeys) === JSON.stringify(bKeys);
+}
+
+function notNull(object) {
+  for (let key in object) {
+    if (!object[key]) return false;
+  }
+  return true;
+}
 module.exports = {
   create: [asyncErrorBoundary(validate), asyncErrorBoundary(create)],
   list: asyncErrorBoundary(list),
