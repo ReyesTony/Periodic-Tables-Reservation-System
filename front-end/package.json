@@ -1,6 +1,7 @@
 {
   "name": "starter-restaurant-reservation-front-end",
   "version": "1.0.0",
+  "homepage": "final-cap-front.vercel.app",
   "description": "Starter code for restaurant reservation frontend",
   "main": "src/index.js",
   "repository": {
@@ -11,7 +12,7 @@
   "private": true,
   "engines": {
     "node": "16.13.1",
-    "npm" : "8.1.2"
+    "npm": "8.1.2"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
