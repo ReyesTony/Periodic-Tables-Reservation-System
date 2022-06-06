@@ -229,12 +229,4 @@ module.exports = {
   phoneValidate,
   tableValidate,
   updateValidator,
-  checkIfOpen,
-  enoughTimeCheck,
-  checkIfPast,
-  checkTuesday,
-  notNull,
-  compareKeys,
-  today,
-  asDateString,
 };

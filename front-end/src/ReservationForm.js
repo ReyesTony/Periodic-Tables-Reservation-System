@@ -6,7 +6,7 @@ import {
   updateReservation,
 } from "./utils/api";
 import ErrorAlert from "./layout/ErrorAlert";
-import { phoneValidate, resValidator } from "./utils/validationtest";
+const { phoneValidate, resValidator } = require("./utils/validationtest");
 
 function ReservationForm() {
   const history = useHistory();
