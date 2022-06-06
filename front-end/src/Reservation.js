@@ -20,11 +20,16 @@ export default function Reservation({ reservation, setReservations, date }) {
           })}
         </p>
         {reservation.status === "booked" ? (
-          <a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a>
+          <a
+            href={`/reservations/${reservation.reservation_id}/seat`}
+            className="btn btn-info mr-1"
+          >
+            Seat
+          </a>
         ) : null}
         <a
           href={`/reservations/${reservation.reservation_id}/edit`}
-          className="btn btn-secondary mr-1"
+          className="btn btn-info mr-1"
         >
           {" "}
           Edit

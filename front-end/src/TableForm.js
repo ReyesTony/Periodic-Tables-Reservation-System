@@ -36,14 +36,16 @@ function TableForm() {
   return (
     <div>
       {error ? <ErrorAlert error={error} /> : null}
-      New Table Form
+      <h1>New Table Form</h1>
       <form name="table" onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-floating mb-3">
           <label htmlFor="table_name">
             Table name
             <input
               id="table_name"
+              className="form-control"
               type="text"
+              placeholder="Name"
               name="table_name"
               onChange={handleChange}
               value={formData.table_name}
@@ -56,6 +58,7 @@ function TableForm() {
             Table capacity
             <input
               id="capacity"
+              className="form-control"
               type="number"
               name="capacity"
               onChange={handleChange}
@@ -65,8 +68,14 @@ function TableForm() {
             />
           </label>
           <br />
-          <button type="submit">Submit</button>
-          <button type="button" onClick={() => history.goBack()}>
+          <button className="btn btn-primary mr-1" type="submit">
+            Submit
+          </button>
+          <button
+            className="btn btn-danger mr-1"
+            type="button"
+            onClick={() => history.goBack()}
+          >
             Cancel
           </button>
         </div>

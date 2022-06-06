@@ -56,9 +56,14 @@ export default function SeatingPage() {
       {error ? <ErrorAlert error={error} /> : null}
       <h1>Assign Seating</h1>
       <form name="seat_form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="table_id">Table Name</label>
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <label className="input-group-text" htmlFor="table_id">
+              Table Name
+            </label>
+          </div>
           <select
+            className="custom-select"
             id="table_id"
             type="text"
             name="table_id"
@@ -78,8 +83,14 @@ export default function SeatingPage() {
             })}
           </select>
         </div>
-        <button type="submit">submit</button>
-        <button type="button" onClick={() => history.goBack()}>
+        <button className="btn btn-primary mr-1" type="submit">
+          Submit
+        </button>
+        <button
+          className="btn btn-danger mr-1"
+          type="button"
+          onClick={() => history.goBack()}
+        >
           Cancel
         </button>
       </form>

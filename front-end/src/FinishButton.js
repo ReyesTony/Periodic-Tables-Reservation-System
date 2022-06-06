@@ -13,7 +13,7 @@ export default function FinishButton({ tableId, setTables }) {
     }
   };
   return (
-    <button onClick={clickHandler} data-table-id-finish={tableId}>
+    <button className="btn btn-danger" onClick={clickHandler} data-table-id-finish={tableId}>
       Finish
     </button>
   );

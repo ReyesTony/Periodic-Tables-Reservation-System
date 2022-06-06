@@ -110,11 +110,11 @@ function ReservationForm() {
         <h2>New Reservation Form</h2>
       )}{" "}
       <form name="reservation" onSubmit={handleSubmit}>
-        <div class="form-floating mb-3">
-          <label for="first_name">
+        <div className="form-floating mb-3">
+          <label htmlFor="first_name">
             First Name
             <input
-              class="form-control"
+              className="form-control"
               id="first_name"
               type="text"
               name="first_name"
@@ -125,11 +125,11 @@ function ReservationForm() {
             />
           </label>
         </div>
-        <div class="form-floating mb-3">
-          <label for="last_name">
+        <div className="form-floating mb-3">
+          <label htmlFor="last_name">
             Last Name
             <input
-              class="form-control"
+              className="form-control"
               placeholder="Last Name"
               id="last_name"
               type="text"
@@ -140,11 +140,11 @@ function ReservationForm() {
             />
           </label>
         </div>
-        <div class="form-floating mb-3">
-          <label for="mobile_number">
+        <div className="form-floating mb-3">
+          <label htmlFor="mobile_number">
             Mobile Number
             <input
-              class="form-control"
+              className="form-control"
               id="mobile_number"
               type="text"
               name="mobile_number"
@@ -157,11 +157,11 @@ function ReservationForm() {
           </label>
         </div>
 
-        <div class="form-floating mb-3">
-          <label for="date">
+        <div className="form-floating mb-3">
+          <label htmlFor="date">
             Date
             <input
-              class="form-control"
+              className="form-control"
               placeholder="Date"
               id="reservation_date"
               type="date"
@@ -174,12 +174,12 @@ function ReservationForm() {
           </label>
         </div>
 
-        <div class="form-floating mb-3">
-          <label for="Time">
+        <div className="form-floating mb-3">
+          <label htmlFor="Time">
             {" "}
             Time
             <input
-              class="form-control"
+              className="form-control"
               placeholder="Time"
               id="reservation_time"
               type="time"
@@ -191,11 +191,11 @@ function ReservationForm() {
             />
           </label>
         </div>
-        <form class="form-floating mb-3">
-          <label for="people">
+        <div className="form-floating mb-3">
+          <label htmlFor="people">
             People
             <input
-              class="form-control"
+              className="form-control"
               id="people"
               type="number"
               name="people"
@@ -205,10 +205,17 @@ function ReservationForm() {
               required
             />
           </label>
-        </form>
-        <button type="submit"> Submit </button>
-        <button type="button" onClick={() => history.goBack()}>
-          cancel
+        </div>
+        <button className="btn btn-primary mr-1" type="submit">
+          {" "}
+          Submit{" "}
+        </button>
+        <button
+          className="btn btn-danger mr-1"
+          type="button"
+          onClick={() => history.goBack()}
+        >
+          Cancel
         </button>
       </form>
     </div>

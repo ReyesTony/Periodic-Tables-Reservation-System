@@ -9,13 +9,17 @@ export default function CancelButton({ reservation, setReservations, date }) {
     ) {
       const abortController = new AbortController();
       assignStatus(reservation.reservation_id, "cancelled")
-        .then(listReservations({ date }, abortController.signal))
-        .then(setReservations)
+        .then((result) => {
+          listReservations({ date }, abortController.signal).then(
+            setReservations
+          );
+        })
         .catch((err) => {});
     }
   }
   return (
     <button
+      className="btn btn-danger mr-1"
       onClick={cancelReservation}
       data-reservation-id-cancel={reservation.reservation_id}
     >

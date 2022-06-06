@@ -68,20 +68,23 @@ function Dashboard({ date }) {
         <h4 className="mb-0">Reservations for date</h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      {reservations.map((reservation) => (
-        <Reservation
-          key={reservation.reservation_id}
-          reservation={reservation}
-          setReservations={setReservations}
-          date={date}
-        />
-      ))}
+      {reservations.map((reservation) =>
+        reservation.status === "finished" ||
+        reservation.status === "cancelled" ? null : (
+          <Reservation
+            key={reservation.reservation_id}
+            reservation={reservation}
+            setReservations={setReservations}
+            date={date}
+          />
+        )
+      )}
       <div className="m2-3">
         <button
           onClick={() => {
             dateChanger(-1);
           }}
-          className="btn btn-primary"
+          className="btn btn-primary mr-2"
         >
           Previous day
         </button>
@@ -89,7 +92,7 @@ function Dashboard({ date }) {
           onClick={() => {
             history.push("/dashboard");
           }}
-          className="btn btn-primary"
+          className="btn btn-primary mr-2"
         >
           Today
         </button>
@@ -98,7 +101,7 @@ function Dashboard({ date }) {
           onClick={() => {
             dateChanger(1);
           }}
-          className="btn btn-primary"
+          className="btn btn-primary mr-2"
         >
           Next day
         </button>

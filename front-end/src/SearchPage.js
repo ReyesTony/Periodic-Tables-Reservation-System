@@ -5,7 +5,6 @@ import ErrorAlert from "./layout/ErrorAlert";
 
 const { phoneValidate } = require("./utils/validationtest");
 
-
 function SearchPage() {
   const [search, setSearch] = useState("");
   const [found, setFound] = useState([]);
@@ -31,19 +30,25 @@ function SearchPage() {
     <div>
       {error ? <ErrorAlert error={error} /> : null}
       <form name="search" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="mobile_number">Search</label>
+        <div className="form-floating mb-3">
+          <h2>Reservation Search</h2>
+
           <input
             id="mobile_number"
+            className="form-control"
             type="text"
             name="mobile_number"
+            placeholder="Mobile Number"
             onChange={handleChange}
             value={search}
             pattern="([0-9]{3}-)?[0-9]{3}-[0-9]{4}"
             required
           />
+
           <br />
-          <button type="submit">Search</button>
+          <button className="btn btn-info" type="submit">
+            Search
+          </button>
         </div>
       </form>
       {submit ? (
