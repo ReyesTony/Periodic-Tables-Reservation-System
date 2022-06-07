@@ -21,7 +21,7 @@ async function validate(req, res, next) {
   if (!newTable) {
     return next({
       status: 400,
-      message: "Invalid input given, requires a name and capacity",
+      message: " Invalid input given, requires a name and capacity ",
     });
   }
   if (
@@ -29,7 +29,7 @@ async function validate(req, res, next) {
     typeof newTable.capacity != "number"
   ) {
     if (!message) {
-      message = "capacity must be a number";
+      message = " capacity must be a number ";
     }
     return next({ status: 400, message });
   } else {
@@ -54,7 +54,7 @@ async function updateValidation(req, res, next) {
   if (!req.body.data || !req.body.data.reservation_id) {
     return next({
       status: 400,
-      message: "Invalid format, requires reservation_id",
+      message: " Invalid format, requires reservation_id ",
     });
   }
   const reservation = await resService.read(req.body.data.reservation_id);
@@ -62,25 +62,25 @@ async function updateValidation(req, res, next) {
   if (!reservation) {
     return next({
       status: 404,
-      message: "999",
+      message: " 999 ",
     });
   }
   if (reservation.status === "seated") {
     return next({
       status: 400,
-      message: "reservation was seated",
+      message: " reservation was seated ",
     });
   }
   if (table.capacity < reservation.people) {
     return next({
       status: 400,
-      message: "Table capacity not enough for party",
+      message: " Table capacity not enough for party ",
     });
   }
   if (table.reservation_id) {
     return next({
       status: 400,
-      message: "Table is already occupied",
+      message: " Table is already occupied ",
     });
   }
   next();
@@ -91,13 +91,13 @@ async function finishValidator(req, res, next) {
   if (!table) {
     return next({
       status: 404,
-      message: `Table ${req.params.table_id} doesn't exist`,
+      message: ` Table ${req.params.table_id} doesn't exist `,
     });
   }
   if (!table.reservation_id) {
     return next({
       status: 400,
-      message: "Table is not occupied",
+      message: " Table is not occupied ",
     });
   }
   next();
@@ -126,22 +126,22 @@ function tableValidate(formData, setError) {
   let message = "";
 
   if (!compareKeys(formData, template) && !compareKeys(formData, template2)) {
-    message = "Invalid input given, requires a table_name and capacity";
+    message = " Invalid input given, requires a table_name and capacity ";
     setError(new Error(message));
     return false;
   }
   if (!notNull(reserveIdTemp)) {
-    message = "Invalid input given, requires a table_name and capacity";
+    message = " Invalid input given, requires a table_name and capacity ";
     setError(new Error(message));
     return false;
   }
   if (formData.table_name.length < 2) {
-    message = "table_name needs at least 2 characters";
+    message = " table_name needs at least 2 characters ";
     setError(new Error(message));
     return false;
   }
   if (formData.capacity <= 0) {
-    message = "Table capacity needs to be a min of 1";
+    message = " Table capacity needs to be a min of 1 ";
     setError(new Error(message));
     return false;
   }

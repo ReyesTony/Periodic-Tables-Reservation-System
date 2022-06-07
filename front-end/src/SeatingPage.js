@@ -37,10 +37,7 @@ export default function SeatingPage() {
     [reservation_id]
   );
 
-  //handlesubmit todo
-  //add requried validation
-  //add assignReservation api function
-  //backend, update table and reservation
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const abortCon = new AbortController();

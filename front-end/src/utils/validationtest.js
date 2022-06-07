@@ -44,13 +44,13 @@ function resValidator(formData, setError) {
 
   if (!compareKeys(formData, template) && !compareKeys(formData, template2)) {
     message =
-      "Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people}";
+      " Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people} ";
     setError(new Error(message));
     return false;
   }
   if (!notNull(formData)) {
     message =
-      "Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people}";
+      " Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people} ";
     setError(new Error(message));
     return false;
   }
@@ -58,21 +58,21 @@ function resValidator(formData, setError) {
     message += "reservation_date must be a date";
   } else {
     if (checkTuesday(formData.reservation_date)) {
-      message += "We are closed tuesdays";
+      message += " We are closed tuesdays ";
     }
     if (checkIfPast(formData.reservation_date)) {
-      message += "Date must be in the future";
+      message += " Date must be in the future ";
     }
   }
   if (/[0-9]{2}:[0-9]{2}/.test(formData.reservation_time) === false) {
-    message += "reservation_time must be a number";
+    message += " reservation_time must be a number ";
   } else {
     if (!checkIfOpen(formData.reservation_time)) {
       message +=
-        "We are closed, open 1030 AM - 1030 PM reservations closing at 930 PM";
+        " We are closed, open 1030 AM - 1030 PM reservations closing at 930 PM ";
     }
     if (!enoughTimeCheck(formData.reservation_time)) {
-      message += "Reservation must be for the future";
+      message += " Reservation must be for the future ";
     }
   }
   if (message.length) {
@@ -183,22 +183,22 @@ function tableValidate(formData, setError) {
   let message = "";
 
   if (!compareKeys(formData, template) && !compareKeys(formData, template2)) {
-    message = "Invalid input given, requires a table_name and capacity";
+    message = " Invalid input given, requires a table_name and capacity ";
     setError(new Error(message));
     return false;
   }
   if (!notNull(reserveIdTemp)) {
-    message = "Invalid input given, requires a table_name and capacity";
+    message = " Invalid input given, requires a table_name and capacity ";
     setError(new Error(message));
     return false;
   }
   if (formData.table_name.length < 2) {
-    message = "table_name needs at least 2 characters";
+    message = " table_name needs at least 2 characters ";
     setError(new Error(message));
     return false;
   }
   if (formData.capacity <= 0) {
-    message = "Table capacity needs to be a min of 1";
+    message = " Table capacity needs to be a min of 1 ";
     setError(new Error(message));
     return false;
   }
@@ -212,12 +212,12 @@ function tableValidate(formData, setError) {
 function updateValidator(formData, reservation, setError) {
   setError(null);
   if (!notNull(formData)) {
-    setError(new Error("Choose a table"));
+    setError(new Error(" Choose a table "));
     return false;
   }
   if (reservation.people > formData.capacity) {
     setError(
-      new Error("Table capacity must be equal or greater to party size")
+      new Error(" Table capacity must be equal or greater to party size ")
     );
     return false;
   }

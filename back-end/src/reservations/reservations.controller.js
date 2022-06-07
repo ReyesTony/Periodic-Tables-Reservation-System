@@ -33,18 +33,18 @@ async function validate(req, res, next) {
     return next({
       status: 400,
       message:
-        "Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people}",
+        " Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people} ",
     });
   }
   if (newRes.status && newRes.status != "booked") {
     return next({
       status: 400,
-      message: "Invalid status, cannot be seated or finished",
+      message: " Invalid status, cannot be seated or finished ",
     });
   }
   if (!resValidator(newRes, setError) || typeof newRes.people != "number") {
     if (!message) {
-      message = "people must be a number";
+      message = " people must be a number ";
     }
     return next({ status: 400, message });
   } else {
@@ -89,13 +89,13 @@ async function updateValidation(req, res, next) {
   if (reservation.status === "finished") {
     return next({
       status: 400,
-      message: "Reservation is finished",
+      message: " Reservation is finished ",
     });
   }
   if (!acceptedStatus.includes(newStatus)) {
     return next({
       status: 400,
-      message: "Given status is unknown",
+      message: " Given status is unknown ",
     });
   }
   return next();
@@ -131,7 +131,7 @@ async function updateResValidation(req, res, next) {
   if (!reservation)
     return next({
       status: 404,
-      message: `${req.params.reservationId} does not exist`,
+      message: ` ${req.params.reservationId} does not exist `,
     });
   next();
 }
@@ -182,35 +182,35 @@ function resValidator(formData, setError) {
 
   if (!compareKeys(formData, template) && !compareKeys(formData, template2)) {
     message =
-      "Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people}";
+      " Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people} ";
     setError(new Error(message));
     return false;
   }
   if (!notNull(formData)) {
     message =
-      "Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people}";
+      " Invalid input given. Requires {string : [first_name, last_name, mobile_number], date:reservation_date, time:reservation_time, number:people} ";
     setError(new Error(message));
     return false;
   }
   if (/\d{4}-\d{2}-\d{2}/.test(formData.reservation_date) === false) {
-    message += "reservation_date must be a date";
+    message += " reservation_date must be a date ";
   } else {
     if (checkTuesday(formData.reservation_date)) {
-      message += "We are closed tuesdays";
+      message += " We are closed tuesdays ";
     }
     if (checkIfPast(formData.reservation_date)) {
-      message += "Date must be in the future";
+      message += " Date must be in the future ";
     }
   }
   if (/[0-9]{2}:[0-9]{2}/.test(formData.reservation_time) === false) {
-    message += "reservation_time must be a number";
+    message += " reservation_time must be a number ";
   } else {
     if (!checkIfOpen(formData.reservation_time)) {
       message +=
-        "We are closed, open 1030 AM - 1030 PM reservations closing at 930 PM";
+        " We are closed, open 1030 AM - 1030 PM reservations closing at 930 PM ";
     }
     if (!enoughTimeCheck(formData.reservation_time)) {
-      message += "Reservation must be for the future";
+      message += " Reservation must be for the future ";
     }
   }
   if (message.length) {

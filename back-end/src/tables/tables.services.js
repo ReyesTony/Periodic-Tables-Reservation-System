@@ -1,17 +1,17 @@
 const knex = require("../db/connection");
 const table = "tables";
 
-async function list() {
+function list() {
   return knex(table).select("*").orderBy("table_name", "asc");
 }
 
-async function create(data) {
+function create(data) {
   return knex(table)
     .insert(data, "*")
     .then((created) => created[0]);
 }
 
-async function update(table_id, reservation_id) {
+function update(table_id, reservation_id) {
   return knex(table)
     .where({ table_id })
     .update("reservation_id", reservation_id)
@@ -24,7 +24,6 @@ function read(table_id) {
     .returning("*")
     .then((created) => created[0]);
 }
-
 
 module.exports = {
   list,

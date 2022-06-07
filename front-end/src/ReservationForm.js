@@ -1,105 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useRouteMatch } from "react-router";
-import {
-  createReservations,
-  getReservation,
-  updateReservation,
-} from "./utils/api";
+import React from "react";
+import { useHistory } from "react-router";
+
 import ErrorAlert from "./layout/ErrorAlert";
-const { phoneValidate, resValidator } = require("./utils/validationtest");
 
-function ReservationForm() {
+function ReservationForm({
+  formData,
+  error,
+  handleSubmit,
+  handleChange,
+  type,
+}) {
   const history = useHistory();
-  const { params, url } = useRouteMatch();
-  const [error, setError] = useState(null);
-  const [type, setType] = useState("new");
-  const [existingData, setExistingData] = useState({});
-  const initialFormState = {
-    first_name: "",
-    last_name: "",
-    mobile_number: "",
-    reservation_date: "",
-    reservation_time: "",
-    people: 0,
-  };
-
-  const [formData, setFormData] = useState({ ...initialFormState });
-  const handleChange = (event) => {
-    const change = { ...formData };
-    if (event.target.id === "mobile_number") {
-      let phoneNumber = event.target.value;
-      phoneNumber = phoneValidate(phoneNumber, formData.mobile_number);
-      event.target.value = phoneNumber;
-    }
-
-    change[event.target.id] = event.target.value;
-    change.people = Number(change.people);
-    setFormData(change);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const abortCon = new AbortController();
-    if (type === "new") {
-      setFormData({ ...initialFormState });
-      if (resValidator(formData, setError)) {
-        createReservations(formData, abortCon.signal)
-          .then(() =>
-            history.push(`/dashboard?date=${formData.reservation_date}`)
-          )
-          .catch((err) => {
-            setError(err);
-          });
-      }
-    } else {
-      if (existingData.status === "booked") {
-        if (resValidator(formData, setError)) {
-          updateReservation(formData, abortCon.signal, params.reservation_id)
-            .then(() =>
-              history.push(`/dashboard?date=${formData.reservation_date}`)
-            )
-            .catch((err) => {
-              setError(err);
-            });
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    Object.keys(params).length ? setType("edit") : setType("new");
-  }, [history, params, url]);
-
-  useEffect(() => {
-    if (type === "edit") {
-      const abortController = new AbortController();
-      getReservation(params.reservation_id, abortController.signal)
-        .then(setExistingData)
-        .catch(setError);
-    } else {
-      setExistingData({
-        first_name: "",
-        last_name: "",
-        mobile_number: "",
-        reservation_date: "",
-        reservation_time: "",
-        people: 1,
-      });
-    }
-  }, [type, params.reservation_id]);
-
-  useEffect(() => {
-    if (Object.keys(existingData).length) {
-      setFormData({
-        first_name: existingData.first_name,
-        last_name: existingData.last_name,
-        mobile_number: existingData.mobile_number,
-        reservation_date: existingData.reservation_date,
-        reservation_time: existingData.reservation_time,
-        people: existingData.people,
-      });
-    }
-  }, [existingData]);
 
   return (
     <div>

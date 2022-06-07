@@ -1,7 +1,7 @@
 const knex = require("../db/connection");
 const table = "reservations";
 
-async function list(date) {
+function list(date) {
   if (date) {
     return knex(table)
       .select("*")
@@ -13,7 +13,7 @@ async function list(date) {
   }
 }
 
-async function create(data) {
+function create(data) {
   return knex(table)
     .insert(data, "*")
     .then((created) => created[0]);
