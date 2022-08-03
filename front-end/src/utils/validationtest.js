@@ -1,3 +1,7 @@
+/* Various validation functions used throughout the app to validate the info being given 
+ */
+
+
 function asDateString(date) {
   return `${date.getFullYear().toString(10)}-${(date.getMonth() + 1)
     .toString(10)

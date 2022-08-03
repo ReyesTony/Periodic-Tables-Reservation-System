@@ -7,8 +7,8 @@ import "./Layout.css";
 /**
  * Defines the main layout of the application.
  *
- * You will not need to make changes to this file.
- *
+ * Allows the side menu to be displayed throughout every page of the app while changing the main part of the page 
+ * to the requested page. 
  * @returns {JSX.Element}
  */
 function Layout() {

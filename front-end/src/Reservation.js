@@ -1,3 +1,5 @@
+//Child component to display all the indivdual reservations on the various pages its needed on.
+
 import React from "react";
 import CancelButton from "./CancelButton";
 

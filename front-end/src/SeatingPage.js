@@ -4,7 +4,8 @@ import { assignReservation, getReservation, listTables } from "./utils/api";
 import ErrorAlert from "./layout/ErrorAlert";
 
 const { updateValidator } = require("./utils/validationtest");
-
+//The page to seat reservations to a table, gathers the data on the requested reservations and all the tables currently listed
+//Displays a menu to choose which table to seat the res at
 export default function SeatingPage() {
   const history = useHistory();
   const [error, setError] = useState(null);
@@ -37,7 +38,7 @@ export default function SeatingPage() {
     [reservation_id]
   );
 
-  
+  //Checks to see if the table is open and if it has enough capacity to seat the party.
   const handleSubmit = (event) => {
     event.preventDefault();
     const abortCon = new AbortController();

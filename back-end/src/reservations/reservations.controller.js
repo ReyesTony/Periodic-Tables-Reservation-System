@@ -1,5 +1,8 @@
 /**
  * List handler for reservation resources
+ * 
+ * Various CRUD functions and several needed validation functions to make sure data that is given
+ * directly to the backend is also verified. 
  */
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const service = require("./reservations.service");

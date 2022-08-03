@@ -1,3 +1,5 @@
+//Main express page to set the server and its routers up. 
+
 const path = require("path");
 
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });

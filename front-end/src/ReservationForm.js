@@ -2,7 +2,9 @@ import React from "react";
 import { useHistory } from "react-router";
 
 import ErrorAlert from "./layout/ErrorAlert";
-
+// The reusable reservation form component, currently called by the CreateReservation and EditReservation component
+// Depending on what states and functions are passed down, will create or edit. 
+// Allows for more flexibility and adheres better to the one-purpose idea of react
 function ReservationForm({
   formData,
   error,

@@ -20,10 +20,15 @@ function Dashboard({ date }) {
   const queryDate = query.get("date");
   const history = useHistory();
 
+  //if no date is given loads up the current date by default
   useEffect(() => {
     if (!queryDate) history.push(`/dashboard?date=${date}`);
   }, [query, history, queryDate, date]);
 
+  /**loads all information needed for the dashboard,
+   * Current day reservations
+   * tables and their status. Name, seating capacity, booked status    * 
+   * */
   useEffect(loadDashboard, [date, history, queryDate]);
 
   //seperating the tables dependency to update reservations from loadDashboard function to avoid infinite loop, while
@@ -49,6 +54,7 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
+  //function attached to date changer buttons to correctly format given date to match required format by the API.
   function dateChanger(change) {
     const temp = date.split("-");
     const newDate = new Date(

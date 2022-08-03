@@ -4,7 +4,7 @@ import Reservation from "./Reservation";
 import ErrorAlert from "./layout/ErrorAlert";
 
 const { phoneValidate } = require("./utils/validationtest");
-
+//page to search for reservations by phone number, requires exact number to find
 function SearchPage() {
   const [search, setSearch] = useState("");
   const [found, setFound] = useState([]);

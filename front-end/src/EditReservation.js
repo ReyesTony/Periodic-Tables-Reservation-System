@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router";
 import { getReservation, updateReservation } from "./utils/api";
 const { phoneValidate, resValidator } = require("./utils/validationtest");
-
+//starts the same as createreservion, setting state and handler functions
 function EditReservation() {
   const history = useHistory();
   const { params } = useRouteMatch();
@@ -49,6 +49,8 @@ function EditReservation() {
     }
   };
 
+  //Here it calls on the API to get the data on the reservation based on the URL params then sets the exisiting data state to that
+  //while allowing any errors to be caught before affecting the actual form. 
   useEffect(() => {
     const abortController = new AbortController();
     getReservation(params.reservation_id, abortController.signal)
@@ -56,6 +58,7 @@ function EditReservation() {
       .catch(setError);
   }, [params.reservation_id]);
 
+  // This sets the state of the actual form data to the exisiting data that was gathered in the previous useEffect
   useEffect(() => {
     if (Object.keys(existingData).length) {
       setFormData({

@@ -1,4 +1,5 @@
 import FinishButton from "./FinishButton";
+//Child component to display the indivdual tables on the main page
 
 export default function Table({ table, setTables }) {
   return (

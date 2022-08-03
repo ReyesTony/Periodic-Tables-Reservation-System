@@ -1,4 +1,8 @@
+//button to finish a reservation, setting its status to "finished" and effectivly removing it from the list 
+
 import { finishTable, listTables } from "./utils/api";
+
+
 export default function FinishButton({ tableId, setTables }) {
   const clickHandler = (event) => {
     if (

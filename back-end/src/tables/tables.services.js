@@ -1,3 +1,5 @@
+//Service page to allow knex to connect and communicate with the postgreSQL database for the table data
+
 const knex = require("../db/connection");
 const table = "tables";
 

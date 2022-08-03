@@ -1,3 +1,9 @@
+/**
+ * Defines the router for table resources.
+ *
+ * @type {Router}
+ */
+
 const router = require("express").Router({ mergeParams: true });
 const methodNotAllowed = require("../errors/methodNotAllowed");
 const controller = require("./tables.controller");

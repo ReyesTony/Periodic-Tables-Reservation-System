@@ -4,6 +4,7 @@ import ErrorAlert from "./layout/ErrorAlert";
 import { createTable } from "./utils/api";
 const { tableValidate } = require("./utils/validationtest");
 
+//Form the add tables to the list 
 function TableForm() {
   const history = useHistory();
   const [error, setError] = useState(null);
